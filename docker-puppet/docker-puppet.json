@@ -1,0 +1,32 @@
+[
+    {
+        "config_image": "10.60.19.51:5000/rhosp12/openstack-ceilometer-central-docker:latest",
+        "config_volume": "ceilometer",
+        "puppet_tags": "ceilometer_config",
+        "step_config": "include ::tripleo::profile::base::ceilometer::agent::polling\n"
+    },
+    {
+        "config_image": "10.60.19.51:5000/rhosp12/openstack-iscsid-docker:latest",
+        "config_volume": "iscsid",
+        "puppet_tags": "iscsid_config",
+        "step_config": "include ::tripleo::profile::base::iscsid"
+    },
+    {
+        "config_image": "10.60.19.51:5000/rhosp12/openstack-nova-compute-docker:latest",
+        "config_volume": "nova_libvirt",
+        "puppet_tags": "nova_config,nova_paste_api_ini",
+        "step_config": "# TODO(emilien): figure how to deal with libvirt profile.\n# We'll probably treat it like we do with Neutron plugins.\n# Until then, just include it in the default nova-compute role.\ninclude tripleo::profile::base::nova::compute::libvirt\n\ninclude ::tripleo::profile::base::database::mysql::client"
+    },
+    {
+        "config_image": "10.60.19.51:5000/rhosp12/openstack-nova-compute-docker:latest",
+        "config_volume": "nova_libvirt",
+        "puppet_tags": "libvirtd_config,nova_config,file",
+        "step_config": "include tripleo::profile::base::nova::libvirt\n\ninclude ::tripleo::profile::base::database::mysql::client"
+    },
+    {
+        "config_image": "10.60.19.51:5000/rhosp12/openstack-neutron-openvswitch-agent-docker:latest",
+        "config_volume": "neutron",
+        "puppet_tags": "neutron_config,neutron_agent_ovs,neutron_plugin_ml2",
+        "step_config": "include ::tripleo::profile::base::neutron::ovs"
+    }
+]
