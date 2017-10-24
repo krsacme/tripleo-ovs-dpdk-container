@@ -3,7 +3,7 @@
         "environment": [
             "KOLLA_CONFIG_STRATEGY=COPY_ALWAYS"
         ],
-        "image": "10.60.19.51:5000/rhosp12/centos-binary-openvswitch-db-server:latest",
+        "image": "10.60.19.51:5000/rhosp12/centos-binary-ovsdpdk-db:latest",
         "net": "host",
         "privileged": false,
         "restart": "always",
@@ -14,7 +14,7 @@
             "/etc/ssh/ssh_known_hosts:/etc/ssh/ssh_known_hosts:ro",
             "/sys/fs/selinux:/sys/fs/selinux",
             "/var/lib/kolla/config_files/openvswitch_db_server.json:/var/lib/kolla/config_files/config.json:ro",
-            "/etc/openvswitch:/etc/openvswitch",
+            "/var/lib/openvswitch/:/var/lib/openvswitch",
             "/run:/run",
             "/var/lib/vhost_sockets:/var/lib/vhost_sockets",
             "/var/log/containers/openvswitch/:/var/log/openvswitch/"
@@ -24,7 +24,7 @@
         "environment": [
             "KOLLA_CONFIG_STRATEGY=COPY_ALWAYS"
         ],
-        "image": "10.60.19.51:5000/rhosp12/centos-binary-openvswitch-vswitchd:latest",
+        "image": "10.60.19.51:5000/rhosp12/centos-binary-ovsdpdk-vswitchd:latest",
         "net": "host",
         "privileged": true,
         "restart": "always",
@@ -39,7 +39,10 @@
             "/var/lib/vhost_sockets:/var/lib/vhost_sockets",
             "/var/log/containers/openvswitch/:/var/log/openvswitch/",
             "/dev:/dev",
-            "/lib/modules:/lib/modules:ro"
+            "/lib/modules:/lib/modules:ro",
+            "/sys/bus/pci/drivers:/sys/bus/pci/drivers",
+            "/sys/kernel/mm/hugepages:/sys/kernel/mm/hugepages",
+            "/sys/devices/system/node:/sys/devices/system/node"
         ]
     }
 }
